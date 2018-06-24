@@ -26,7 +26,7 @@ Route::get('/ads/{ad}', 'AdController@show');
 
 // auth endpoints (user&admin)
 Route::group([
-    'middleware' => 'api',
+    // 'middleware' => 'api',
     'prefix' => 'auth'
 ], function () {
 

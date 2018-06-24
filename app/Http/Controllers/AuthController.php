@@ -10,16 +10,6 @@ use App\User;
 class AuthController extends Controller
 {
     /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login']]);
-    }
-
-    /**
      * Get a JWT via given credentials.
      *
      * @return \Illuminate\Http\JsonResponse
@@ -32,11 +22,18 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
+        return [
+            'user' => auth()->user(),
+            'access_token' => $token
+        ];
+
         return $this->respondWithToken($token);
     }
 
     public function register (Request $request) {
-        return User::create($request->all())   
+        $userData = $request->all();
+        $userData['password'] = bcrypt($userData['password']);
+        return User::create($userData);
     }
 
     /**
@@ -47,21 +44,5 @@ class AuthController extends Controller
     public function me()
     {
         return response()->json(auth()->user());
-    }
-
-    /**
-     * Get the token array structure.
-     *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function respondWithToken($token)
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
-        ]);
     }
 }
