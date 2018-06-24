@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class AdController extends Controller
 {
+    public $user;
+    public function __construct() {
+        $this->user = auth()->user();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,11 @@ class AdController extends Controller
      */
     public function index()
     {
-        return Ad::with('user')->get();
+        return Ad::with('user')->ordered()->get();
+    }
+
+    public function getByAuthUser() {
+        return auth()->user()->ads()->ordered()->get();
     }
 
     /**
@@ -26,7 +35,7 @@ class AdController extends Controller
     public function store(Request $request)
     {
         return response()->json(
-            Ad::create($request->all()),
+            $this->user->ads()->create($request->all()),
             200
         );
     }
@@ -55,7 +64,7 @@ class AdController extends Controller
     public function update(Request $request, Ad $ad)
     {
         return response()->json(
-            Ad::upadte($request->all()),
+            $this->user->ads()->upadte($request->all()),
             200
         );
     }

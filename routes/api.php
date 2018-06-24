@@ -17,8 +17,6 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-// Route::get('/users', 'UserController@index');
-
 // public ad endpoints
 Route::get('/ads', 'AdController@index');
 Route::get('/ads/{ad}', 'AdController@show');
@@ -26,26 +24,24 @@ Route::get('/ads/{ad}', 'AdController@show');
 
 // auth endpoints (user&admin)
 Route::group([
-    // 'middleware' => 'api',
+    'middleware' => 'api',
     'prefix' => 'auth'
 ], function () {
 
   Route::post('login', 'AuthController@login'); 
   Route::post('register', 'AuthController@register'); 
-  // Route::post('logout', 'AuthController@logout');
-  // Route::post('/admin/login', 'AuthController@adminLogin');
 
 });
-
 
 // protected endpoints
 Route::group([
   'middleware' => 'auth:api'
 ], function () {
 
-  Route::post('/me', 'AuthController@me');
+  Route::get('/me', 'AuthController@me');
+  Route::get('/findMyAds', 'AdController@getByAuthUser');
   Route::post('/ads', 'AdController@store');
-  Route::post('/ads/{ad}', 'AdController@update');
-  Route::post('/ads/{ad}', 'AdController@destroy');
+  Route::put('/ads/{ad}', 'AdController@update');
+  Route::delete('/ads/{ad}', 'AdController@destroy');
 
 });
