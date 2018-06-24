@@ -17,4 +17,17 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::get('/users', 'UserController@index');
+// Route::get('/users', 'UserController@index');
+
+Route::post('/user/login', 'AuthController@userLogin');
+Route::post('/user/register', 'AuthController@userRegister');
+Route::post('/admin/login', 'AuthController@adminLogin');
+
+Route::get('/ad', 'AdController@index');
+Route::get('/ad/{ad}', 'AdController@show');
+
+
+// dodati sercurity
+Route::post('/ad', 'AdController@store');
+Route::post('/ad/{ad}', 'AdController@update');
+Route::post('/ad/{ad}', 'AdController@destroy');
