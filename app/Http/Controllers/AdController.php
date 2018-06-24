@@ -14,7 +14,7 @@ class AdController extends Controller
      */
     public function index()
     {
-        //
+        return Ad::with('user')->get();
     }
 
     /**
@@ -25,7 +25,10 @@ class AdController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return response()->json(
+            Ad::create($request->all()),
+            200
+        );
     }
 
     /**
@@ -36,7 +39,10 @@ class AdController extends Controller
      */
     public function show(Ad $ad)
     {
-        //
+        return response()->json(
+            $ad,
+            200
+        );;
     }
 
     /**
@@ -48,7 +54,10 @@ class AdController extends Controller
      */
     public function update(Request $request, Ad $ad)
     {
-        //
+        return response()->json(
+            Ad::upadte($request->all()),
+            200
+        );
     }
 
     /**
@@ -59,6 +68,9 @@ class AdController extends Controller
      */
     public function destroy(Ad $ad)
     {
-        //
+        return response()->json(
+            $ad->delete(),
+            200
+        );
     }
 }

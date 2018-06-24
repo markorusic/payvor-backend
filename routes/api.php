@@ -30,8 +30,9 @@ Route::group([
     'prefix' => 'auth'
 ], function () {
 
-	Route::post('login', 'AuthController@login'); 
-  Route::post('logout', 'AuthController@logout');
+  Route::post('login', 'AuthController@login'); 
+  Route::post('register', 'AuthController@register'); 
+  // Route::post('logout', 'AuthController@logout');
   // Route::post('/admin/login', 'AuthController@adminLogin');
 
 });
@@ -42,7 +43,7 @@ Route::group([
   'middleware' => 'auth:api'
 ], function () {
 
-  Route::post('me', 'AuthController@me');
+  Route::post('/me', 'AuthController@me');
   Route::post('/ads', 'AdController@store');
   Route::post('/ads/{ad}', 'AdController@update');
   Route::post('/ads/{ad}', 'AdController@destroy');
