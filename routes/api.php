@@ -19,15 +19,32 @@ use Illuminate\Http\Request;
 
 // Route::get('/users', 'UserController@index');
 
-Route::post('/user/login', 'AuthController@userLogin');
-Route::post('/user/register', 'AuthController@userRegister');
-Route::post('/admin/login', 'AuthController@adminLogin');
-
-Route::get('/ad', 'AdController@index');
-Route::get('/ad/{ad}', 'AdController@show');
+// public ad endpoints
+Route::get('/ads', 'AdController@index');
+Route::get('/ads/{ad}', 'AdController@show');
 
 
-// dodati sercurity
-Route::post('/ad', 'AdController@store');
-Route::post('/ad/{ad}', 'AdController@update');
-Route::post('/ad/{ad}', 'AdController@destroy');
+// auth endpoints (user&admin)
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
+], function () {
+
+	Route::post('login', 'AuthController@login'); 
+  Route::post('logout', 'AuthController@logout');
+  // Route::post('/admin/login', 'AuthController@adminLogin');
+
+});
+
+
+// protected endpoints
+Route::group([
+  'middleware' => 'auth:api'
+], function () {
+
+  Route::post('me', 'AuthController@me');
+  Route::post('/ads', 'AdController@store');
+  Route::post('/ads/{ad}', 'AdController@update');
+  Route::post('/ads/{ad}', 'AdController@destroy');
+
+});

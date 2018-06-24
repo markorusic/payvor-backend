@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use App\Ad;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,14 +13,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
-        User::create([
-            'name' => 'Alek Temimovic',
-            'email' => 'alek@gmail.com',
-            'password' => bcrypt('123456'),
-            'phone' => '065897342374234',
-            'address' => 'stagod',
-            'role' => 'user'
-        ]);
+        $faker = Faker\Factory::create();
+
+        if (User::count() == 0) {
+            User::create([
+                'name' => 'Alek Temimovic',
+                'email' => 'alek@gmail.com',
+                'password' => bcrypt('123456'),
+                'phone' => '065897342374234',
+                'address' => 'stagod',
+                'role' => 'user'
+            ]);
+        }
+
+        for ($i = 0; $i < 30; $i++) {
+            Ad::create([
+                'title' => $faker->realText($maxNbChars = 30),
+                'description' => $faker->realText($maxNbChars = 200, $indexSize = 2),
+                'price' => rand(1000, 1500),
+                'user_id' => 1
+            ]);
+        }
+
     }
 }
