@@ -39,7 +39,7 @@ Route::group(['middleware' => 'auth:api'], function () {
   Route::get('/me', 'AuthController@me');
   Route::get('/findMyAds', 'AdController@getByAuthUser');
   Route::post('/ads', 'AdController@store');
-  Route::put('/ads/{ad}', 'AdController@update');
+  Route::put('/updateAd/{ad}', 'AdController@update');
   Route::delete('/deleteAd/{ad}', 'AdController@destroy');
 
 });

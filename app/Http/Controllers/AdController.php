@@ -63,8 +63,9 @@ class AdController extends Controller
      */
     public function update(Request $request, Ad $ad)
     {
+        // return $request->all();
         return response()->json(
-            $this->user->ads()->upadte($request->all()),
+            $ad->update($request->all()),
             200
         );
     }
