@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 class AdController extends Controller
 {
     public $user;
+    
     public function __construct() {
         $this->user = auth()->user();
     }
@@ -63,7 +64,9 @@ class AdController extends Controller
      */
     public function update(Request $request, Ad $ad)
     {
-        // return $request->all();
+        if ($ad->user_id != $this->user->id) {
+            return response()->json('Permission denied.', 403);
+        }
         return response()->json(
             $ad->update($request->all()),
             200
@@ -78,6 +81,10 @@ class AdController extends Controller
      */
     public function destroy(Ad $ad)
     {
+        $canDelete = ($ad->user_id == $this->user->id) || $this->user->role == 'admin';
+        if (!$canDelete) {
+            return response()->json('Permission denied.', 403);
+        }
         return response()->json(
             $ad->delete(),
             200

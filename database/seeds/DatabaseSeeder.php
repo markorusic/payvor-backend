@@ -24,6 +24,13 @@ class DatabaseSeeder extends Seeder
                 'address' => 'stagod',
                 'role' => 'user'
             ]);
+
+            User::create([
+                'name' => 'Alek Temimovic',
+                'email' => 'alek.admin@gmail.com',
+                'password' => bcrypt('123456'),
+                'role' => 'admin'
+            ]);
         }
 
         for ($i = 0; $i < 30; $i++) {
